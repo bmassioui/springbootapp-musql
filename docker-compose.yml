@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  springbootappmusql-db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=ProductDB
+      - MYSQL_USER=bmassioui
+      - MYSQL_PASSWORD=toor74153698
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqldbvolume:/var/lib/mysql
+
+  springbootappmusql:
+    image: bmassioui/springbootapp-musql
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=springbootappmusql-db
+      - DATABASE_USER=bmassioui
+      - DATABASE_PASSWORD=toor74153698
+      - DATABASE_NAME=ProductDB
+      - DATABASE_PORT=3306
+    links:
+      - springbootappmusql-db
+    depends_on:
+      - springbootappmusql-db
+
+volumes:
+  mysqldbvolume:

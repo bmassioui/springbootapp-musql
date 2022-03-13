@@ -1,0 +1,2 @@
+1 - Generate `springbootapp-musql-0.0.1-SNAPSHOT.jar`
+	- Right click on the project (maven section) - clean, then package to create the .jar artifact -see the screen shot

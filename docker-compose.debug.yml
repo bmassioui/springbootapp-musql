@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: toor74153698
+      MYSQL_USER: bmassioui
+      MYSQL_PASSWORD: toor74153698
+      MYSQL_DATABASE: ProductDB
+    ports:
+      - 3306:3306
+    volumes:
+      - mysqldbvolume:/var/lib/mysql
+
+  springbootappmusql:
+    image: springbootappmusql
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8080:8080
+    links:
+      - db
+    depends_on:
+      - db
+
+volumes:
+  mysqldbvolume:
