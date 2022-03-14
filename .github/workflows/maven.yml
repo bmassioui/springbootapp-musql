@@ -17,9 +17,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Maven Clean Install
+    - name: Clean Install
       run: mvn clean install
-    - name: Maven Compile
-      run: mvn -B package --file pom.xml
-    - name: Test with Maven
+    - name: Compile
+      run: mvn compile
+    - name: Test
       run: mvn test
+    - name: Package Artifact
+      run: mvn package
+    - name: Copy .Jar Artifact to staging Dir
+      run: mkdir staging && cp target/*.jar staging
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Package
+        path: staging
+      
+      
