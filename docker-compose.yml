@@ -25,9 +25,9 @@ services:
       dockerfile: ./Dockerfile
     env_file: ./.env
     ports:
-      - 8080:8080
+      - $SPRING_HOST_PORT:$SPRING_CONTAINER_PORT
     environment:
-      - SPRING_DATASOURCE_URL=JDBC:MYSQL://springbootappmusql-db:3306/$MYSQL_DATABASE
+      - SPRING_DATASOURCE_URL=JDBC:MYSQL://springbootappmusql-db:$MYSQLDB_CONTAINER_PORT/$MYSQL_DATABASE
       - SPRING_DATASOURCE_USERNAME=$MYSQL_USER
       - SPRING_DATASOURCE_PASSWORD=$MYSQL_PASSWORD
     links:
