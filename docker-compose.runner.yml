@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  gitlab-runner:
+    container_name: gitlab-runner
+    image: gitlab/gitlab-runner
+    restart: 'no'
+    volumes:
+      - ./gitlab/runner:/etc/gitlab-runner:Z
+    command: 
+    - register
+    - --non-interactive
+    - --locked=false
+    - --name=Docker Runner
+    - --executor=docker
+    - --docker-image=docker:latest
+    - --docker-volumes=/var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - CI_SERVER_URL=https://www.gitlab.com/
+    - REGISTRATION_TOKEN=see_gitlab_admin_runner_setup
