@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   springbootappmusql-db:
+    container_name: springbootappmusql-db
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: on-failure
@@ -15,7 +16,8 @@ services:
     volumes:
       - mysqldbvolume:/var/lib/mysql
 
-  springbootappmusql:
+  springbootappmusql-api:
+    container_name: springbootappmusql-api
     image: bmassioui/springbootapp-musql
     build:
       context: .
