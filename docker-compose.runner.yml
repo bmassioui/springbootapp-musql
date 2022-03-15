@@ -15,5 +15,5 @@ services:
     - --docker-image=docker:latest
     - --docker-volumes=/var/run/docker.sock:/var/run/docker.sock
     environment:
-    - CI_SERVER_URL=https://www.gitlab.com/
-    - REGISTRATION_TOKEN=see_gitlab_admin_runner_setup
+    - CI_SERVER_URL=https://gitlab.com/
+    - REGISTRATION_TOKEN=GR1348941TEbx2zWJyeEQ-GaowAge
