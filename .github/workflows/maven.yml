@@ -8,59 +8,60 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: "17"
-          distribution: "temurin"
-          cache: maven
-      - name: Clean Install
-        run: mvn clean install
-      - name: Compile
-        run: mvn compile
+      - run: echo "Hi mate :)"
+  #     - uses: actions/checkout@v2
+  #     - name: Set up JDK 17
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         java-version: "17"
+  #         distribution: "temurin"
+  #         cache: maven
+  #     - name: Clean Install
+  #       run: mvn clean install
+  #     - name: Compile
+  #       run: mvn compile
 
-  test:
-    runs-on: ubuntu-latest
-    needs: [build] # Wait until the Build Job done
-    steps:
-      - uses: actions/checkout@v2
-      - name: Test
-        run: mvn test
+  # test:
+  #   runs-on: ubuntu-latest
+  #   needs: [build] # Wait until the Build Job done
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Test
+  #       run: mvn test
 
-  sonar-cloud:
-    runs-on: ubuntu-latest
-    needs: [test] # Wait until the Test Job done
-    steps:
-      - uses: actions/checkout@v2
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=bmassioui_springbootapp-musql
+  # sonar-cloud:
+  #   runs-on: ubuntu-latest
+  #   needs: [test] # Wait until the Test Job done
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Cache SonarCloud packages
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: ~/.sonar/cache
+  #         key: ${{ runner.os }}-sonar
+  #         restore-keys: ${{ runner.os }}-sonar
+  #     - name: Cache Maven packages
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: ~/.m2
+  #         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+  #         restore-keys: ${{ runner.os }}-m2
+  #     - name: Build and analyze
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=bmassioui_springbootapp-musql
 
-  publish:
-    runs-on: ubuntu-latest
-    needs: [sonar-cloud] # Wait until the Sonar-Cloud Job done
-    steps:
-      - uses: actions/checkout@v2
-      - name: Package Artifact
-        run: mvn -B package -f pom.xml -DskipTest
-      - name: Copy .Jar Artifact to staging Dir
-        run: mkdir staging && cp target/*.jar staging
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Package
-          path: staging
+  # publish:
+  #   runs-on: ubuntu-latest
+  #   needs: [sonar-cloud] # Wait until the Sonar-Cloud Job done
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Package Artifact
+  #       run: mvn -B package -f pom.xml -DskipTest
+  #     - name: Copy .Jar Artifact to staging Dir
+  #       run: mkdir staging && cp target/*.jar staging
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: Package
+  #         path: staging
